@@ -1,0 +1,241 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Trilha Dev</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="style.css">
+
+  <a class="link-pular" href="#conteudo">Pular para o conteúdo</a>
+
+  <!-- Cabeçalho: nome do sistema, descrição e navegação -->
+  <header class="cabecalho">
+    <div class="container cabecalho-conteudo">
+      <div class="marca">
+        <h1 class="marca-nome">Trilha Dev</h1>
+        <p class="marca-descricao">
+          Padronize os resumos diários do grupo e transforme cada resumo em um prompt
+          para gerar uma prova de 10 questões com a IA de sua preferência.
+        </p>
+      </div>
+      <nav class="navegacao" aria-label="Navegação principal">
+        <button type="button" class="botao botao-link" data-tela="tela-lista">Resumos</button>
+        <button type="button" class="botao botao-link" data-tela="tela-integrantes">Integrantes</button>
+        <button type="button" class="botao botao-primario" id="botao-novo-resumo">+ Novo resumo</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo" class="container">
+    <!-- Mensagens de sucesso, erro e aviso -->
+    <div id="mensagem" class="mensagem" role="status" aria-live="polite" hidden></div>
+
+    <!-- TELA 1: lista e histórico de resumos -->
+    <section id="tela-lista" class="tela" aria-labelledby="titulo-lista">
+      <div class="tela-cabecalho">
+        <h2 id="titulo-lista">Histórico de estudos</h2>
+        <p class="contador">
+          <strong id="contador-resumos">0</strong>
+          <span id="contador-rotulo">resumos registrados</span>
+        </p>
+      </div>
+
+      <div class="filtros" role="search" aria-label="Filtros do histórico">
+        <div class="campo">
+          <label for="filtro-desenvolvedor">Desenvolvedor</label>
+          <select id="filtro-desenvolvedor">
+            <option value="">Todos</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="filtro-data">Data do estudo</label>
+          <input type="date" id="filtro-data">
+        </div>
+        <div class="campo">
+          <label for="filtro-tema">Pesquisar por tema</label>
+          <input type="search" id="filtro-tema" placeholder="Ex.: Funções em JavaScript">
+        </div>
+        <button type="button" class="botao botao-secundario" id="botao-limpar-filtros">Limpar filtros</button>
+      </div>
+
+      <p id="lista-vazia" class="estado-vazio" hidden></p>
+      <ul id="lista-resumos" class="lista-resumos"></ul>
+    </section>
+
+    <!-- TELA 2: formulário de cadastro e edição do resumo -->
+    <section id="tela-formulario" class="tela" aria-labelledby="titulo-formulario" hidden>
+      <div class="tela-cabecalho">
+        <h2 id="titulo-formulario">Novo resumo</h2>
+        <p class="texto-apoio">
+          Campos marcados com * são obrigatórios. Não inclua senhas, tokens ou dados pessoais no resumo.
+        </p>
+      </div>
+
+      <form id="formulario-resumo" class="cartao formulario" novalidate>
+        <input type="hidden" id="resumo-id">
+
+        <fieldset>
+          <legend>Identificação do estudo</legend>
+          <div class="grade-campos">
+            <div class="campo">
+              <label for="campo-desenvolvedor">Nome do desenvolvedor *</label>
+              <select id="campo-desenvolvedor" aria-describedby="dica-desenvolvedor" required></select>
+              <p class="dica" id="dica-desenvolvedor">Escolha seu nome. A lista é configurada em "Integrantes".</p>
+              <p class="erro-campo"></p>
+            </div>
+            <div class="campo">
+              <label for="campo-data">Data do estudo *</label>
+              <input type="date" id="campo-data" aria-describedby="dica-data" required>
+              <p class="dica" id="dica-data">Dia em que o estudo foi realizado.</p>
+              <p class="erro-campo"></p>
+            </div>
+            <div class="campo campo-largo">
+              <label for="campo-tema">Tema principal estudado *</label>
+              <input type="text" id="campo-tema" maxlength="120" aria-describedby="dica-tema" required>
+              <p class="dica" id="dica-tema">Um título curto. Ex.: "Arrays e métodos em JavaScript".</p>
+              <p class="erro-campo"></p>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Conteúdos estudados</legend>
+          <div class="campo">
+            <label for="campo-conteudos">Conteúdos abordados *</label>
+            <textarea id="campo-conteudos" rows="4" aria-describedby="dica-conteudos" required></textarea>
+            <p class="dica" id="dica-conteudos">Liste os tópicos vistos no dia, de preferência um por linha.</p>
+            <p class="erro-campo"></p>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Conhecimentos adquiridos</legend>
+          <div class="grade-campos grade-uma-coluna">
+            <div class="campo">
+              <label for="campo-aprendizado">O que aprendi hoje? *</label>
+              <textarea id="campo-aprendizado" rows="5" aria-describedby="dica-aprendizado" required></textarea>
+              <p class="dica" id="dica-aprendizado">Explique com suas palavras o que você entendeu.</p>
+              <p class="erro-campo"></p>
+            </div>
+            <div class="campo">
+              <label for="campo-conceitos">Conceitos e definições importantes</label>
+              <textarea id="campo-conceitos" rows="4" aria-describedby="dica-conceitos"></textarea>
+              <p class="dica" id="dica-conceitos">Termos-chave e o que significam. Ex.: "Função: bloco de código reutilizável".</p>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Aplicações práticas</legend>
+          <div class="campo">
+            <label for="campo-exemplos">Exemplos ou aplicações práticas</label>
+            <textarea id="campo-exemplos" rows="5" aria-describedby="dica-exemplos"></textarea>
+            <p class="dica" id="dica-exemplos">Trechos de código, exercícios feitos ou onde o conteúdo pode ser usado.</p>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Dificuldades encontradas</legend>
+          <div class="campo">
+            <label for="campo-dificuldades">Dificuldades ou dúvidas encontradas</label>
+            <textarea id="campo-dificuldades" rows="3" aria-describedby="dica-dificuldades"></textarea>
+            <p class="dica" id="dica-dificuldades">O que ficou confuso ou precisa ser revisado.</p>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Próximos passos</legend>
+          <div class="campo">
+            <label for="campo-proximos-passos">O que pretendo estudar no próximo dia?</label>
+            <textarea id="campo-proximos-passos" rows="3" aria-describedby="dica-proximos-passos"></textarea>
+            <p class="dica" id="dica-proximos-passos">Próximo tema ou revisão planejada.</p>
+          </div>
+        </fieldset>
+
+        <div class="acoes">
+          <button type="submit" class="botao botao-primario">Salvar resumo</button>
+          <button type="button" class="botao botao-secundario" id="botao-cancelar-formulario">Cancelar</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- TELA 3: resumo completo, padronizado, e geração do prompt -->
+    <section id="tela-detalhe" class="tela" aria-labelledby="titulo-detalhe" hidden>
+      <div class="tela-cabecalho">
+        <button type="button" class="botao botao-link botao-voltar" id="botao-voltar-lista">← Voltar para o histórico</button>
+      </div>
+
+      <article id="detalhe-resumo" class="cartao resumo-padronizado"></article>
+
+      <div class="acoes">
+        <button type="button" class="botao botao-primario" id="botao-gerar-prova">Gerar prova com IA</button>
+        <button type="button" class="botao botao-secundario" id="botao-editar-detalhe">Editar</button>
+        <button type="button" class="botao botao-perigo" id="botao-excluir-detalhe">Excluir</button>
+      </div>
+
+      <section id="painel-prompt" class="cartao painel-prompt" aria-labelledby="titulo-prompt" hidden>
+        <h3 id="titulo-prompt" tabindex="-1">Prompt para a IA</h3>
+        <p class="texto-apoio">
+          Copie o texto abaixo e cole em qualquer IA de conversação. A prova será criada e corrigida
+          pela IA escolhida. O Trilha Dev apenas prepara o prompt.
+        </p>
+        <label for="campo-prompt" class="visualmente-oculto">Prompt gerado</label>
+        <textarea id="campo-prompt" rows="18" readonly></textarea>
+        <div class="acoes">
+          <button type="button" class="botao botao-primario" id="botao-copiar-prompt">Copiar prompt</button>
+          <p id="feedback-copia" class="feedback-copia" role="status" aria-live="polite"></p>
+        </div>
+      </section>
+    </section>
+
+    <!-- TELA 4: configuração dos integrantes do grupo -->
+    <section id="tela-integrantes" class="tela" aria-labelledby="titulo-integrantes" hidden>
+      <div class="tela-cabecalho">
+        <h2 id="titulo-integrantes">Integrantes do grupo</h2>
+        <p class="texto-apoio">
+          Cadastre até cinco integrantes. Os nomes aparecem no formulário e nos filtros.
+          Use apenas o nome ou apelido.
+        </p>
+      </div>
+
+      <form id="formulario-integrantes" class="cartao formulario" novalidate>
+        <div class="grade-campos">
+          <div class="campo">
+            <label for="integrante-1">Integrante 1</label>
+            <input type="text" id="integrante-1" class="campo-integrante" maxlength="60">
+          </div>
+          <div class="campo">
+            <label for="integrante-2">Integrante 2</label>
+            <input type="text" id="integrante-2" class="campo-integrante" maxlength="60">
+          </div>
+          <div class="campo">
+            <label for="integrante-3">Integrante 3</label>
+            <input type="text" id="integrante-3" class="campo-integrante" maxlength="60">
+          </div>
+          <div class="campo">
+            <label for="integrante-4">Integrante 4</label>
+            <input type="text" id="integrante-4" class="campo-integrante" maxlength="60">
+          </div>
+          <div class="campo">
+            <label for="integrante-5">Integrante 5</label>
+            <input type="text" id="integrante-5" class="campo-integrante" maxlength="60">
+          </div>
+        </div>
+        <p class="erro-campo" id="erro-integrantes"></p>
+        <div class="acoes">
+          <button type="submit" class="botao botao-primario">Salvar integrantes</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- Janela de confirmação de exclusão -->
+  <dialog id="dialogo-exclusao" class="dialogo" aria-labelledby="titulo-confirmacao" aria-describedby="texto-confirmacao">
+    <h2 id="titulo-confirmacao">Excluir resumo?</h2>
+    <p id="texto-confirmacao"></p>
+    <div class="acoes">
+      <button type="button" class="botao botao-perigo" id="botao-confirmar-exclusao">Excluir</button>
+      <button type="button" class="botao botao-secundario" id="botao-cancelar-exclusao">Cancelar</button>
+    </div>
+  </dialog>
+
+  <script src="script.js"></script>
+
+</body></html>

@@ -1,0 +1,601 @@
+/* =========================================================
+   Trilha Dev — style.css
+   Paleta neutra com uma cor de destaque (azul).
+   ========================================================= */
+
+/* ---------- 1. Variáveis de cor e medidas ---------- */
+:root {
+  --cor-fundo: #f5f6f8;
+  --cor-superficie: #ffffff;
+  --cor-borda: #e1e4e8;
+  --cor-borda-forte: #c4c9d0;
+  --cor-texto: #1f2933;
+  --cor-texto-suave: #5b6675;
+
+  --cor-destaque: #2563eb;
+  --cor-destaque-escura: #1d4ed8;
+  --cor-destaque-clara: #e8effd;
+  --cor-foco: #93b4f5;
+
+  --cor-sucesso: #166534;
+  --cor-sucesso-clara: #e7f6ec;
+  --cor-erro: #b42318;
+  --cor-erro-clara: #fdeceb;
+  --cor-aviso: #854d0e;
+  --cor-aviso-clara: #fef6e0;
+
+  --cor-campo: #ffffff;
+  --cor-texto-no-destaque: #ffffff;
+  --cor-borda-sucesso: #b7e1c5;
+  --cor-borda-erro: #f0bdb7;
+  --cor-borda-aviso: #f1d9a0;
+  --cor-sombra-fundo: rgba(15, 23, 42, 0.45);
+
+  --raio: 8px;
+  --raio-cartao: 12px;
+}
+
+/* Modo escuro: segue a preferência do sistema ou a escolha do usuário */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --cor-fundo: #12151a;
+    --cor-superficie: #1b1f26;
+    --cor-borda: #2c323c;
+    --cor-borda-forte: #434b57;
+    --cor-texto: #e6e9ee;
+    --cor-texto-suave: #9aa4b2;
+    --cor-destaque: #6b97ff;
+    --cor-destaque-escura: #8badff;
+    --cor-destaque-clara: #1e2a44;
+    --cor-foco: #3b5ba8;
+    --cor-sucesso: #6fd39a;
+    --cor-sucesso-clara: #13291c;
+    --cor-erro: #ff8a80;
+    --cor-erro-clara: #3a1715;
+    --cor-aviso: #f0c26b;
+    --cor-aviso-clara: #332710;
+    --cor-campo: #14181e;
+    --cor-texto-no-destaque: #0b1530;
+    --cor-borda-sucesso: #24503a;
+    --cor-borda-erro: #6b2a25;
+    --cor-borda-aviso: #5a4518;
+    --cor-sombra-fundo: rgba(0, 0, 0, 0.6);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --cor-fundo: #12151a;
+  --cor-superficie: #1b1f26;
+  --cor-borda: #2c323c;
+  --cor-borda-forte: #434b57;
+  --cor-texto: #e6e9ee;
+  --cor-texto-suave: #9aa4b2;
+  --cor-destaque: #6b97ff;
+  --cor-destaque-escura: #8badff;
+  --cor-destaque-clara: #1e2a44;
+  --cor-foco: #3b5ba8;
+  --cor-sucesso: #6fd39a;
+  --cor-sucesso-clara: #13291c;
+  --cor-erro: #ff8a80;
+  --cor-erro-clara: #3a1715;
+  --cor-aviso: #f0c26b;
+  --cor-aviso-clara: #332710;
+  --cor-campo: #14181e;
+  --cor-texto-no-destaque: #0b1530;
+  --cor-borda-sucesso: #24503a;
+  --cor-borda-erro: #6b2a25;
+  --cor-borda-aviso: #5a4518;
+  --cor-sombra-fundo: rgba(0, 0, 0, 0.6);
+  color-scheme: dark;
+}
+
+/* ---------- 2. Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--cor-texto);
+  background: var(--cor-fundo);
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+}
+
+.container {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+main.container {
+  padding-bottom: 48px;
+}
+
+.link-pular {
+  position: absolute;
+  left: -9999px;
+}
+
+.link-pular:focus {
+  left: 16px;
+  top: 16px;
+  z-index: 10;
+  padding: 8px 12px;
+  background: var(--cor-superficie);
+  border: 2px solid var(--cor-destaque);
+  border-radius: var(--raio);
+}
+
+.visualmente-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- 3. Cabeçalho e navegação ---------- */
+.cabecalho {
+  background: var(--cor-superficie);
+  border-bottom: 1px solid var(--cor-borda);
+  padding: 20px 0;
+  margin-bottom: 24px;
+}
+
+.cabecalho-conteudo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.marca-nome {
+  margin: 0;
+  font-size: 1.6rem;
+  color: var(--cor-destaque);
+}
+
+.marca-descricao {
+  margin: 4px 0 0;
+  max-width: 520px;
+  font-size: 0.95rem;
+  color: var(--cor-texto-suave);
+}
+
+.navegacao {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ---------- 4. Botões ---------- */
+.botao {
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.2;
+  padding: 10px 16px;
+  border: 1px solid transparent;
+  border-radius: var(--raio);
+  cursor: pointer;
+}
+
+.botao:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+h3:focus-visible {
+  outline: 3px solid var(--cor-foco);
+  outline-offset: 2px;
+}
+
+.botao-primario {
+  background: var(--cor-destaque);
+  color: var(--cor-texto-no-destaque);
+}
+
+.botao-primario:hover {
+  background: var(--cor-destaque-escura);
+}
+
+.botao-secundario {
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
+  border-color: var(--cor-borda-forte);
+}
+
+.botao-secundario:hover {
+  background: var(--cor-fundo);
+}
+
+.botao-perigo {
+  background: var(--cor-superficie);
+  color: var(--cor-erro);
+  border-color: var(--cor-borda-erro);
+}
+
+.botao-perigo:hover {
+  background: var(--cor-erro-clara);
+}
+
+.botao-link {
+  background: transparent;
+  color: var(--cor-texto-suave);
+}
+
+.botao-link:hover {
+  color: var(--cor-texto);
+  background: var(--cor-fundo);
+}
+
+.botao-link[aria-current="page"] {
+  color: var(--cor-destaque);
+  background: var(--cor-destaque-clara);
+}
+
+.botao-voltar {
+  padding-left: 0;
+}
+
+.botao-voltar:hover {
+  background: transparent;
+}
+
+.botao-pequeno {
+  padding: 6px 12px;
+  font-size: 0.875rem;
+}
+
+/* ---------- 5. Mensagens ---------- */
+.mensagem {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border: 1px solid;
+  border-radius: var(--raio);
+  font-weight: 500;
+}
+
+.mensagem-sucesso {
+  color: var(--cor-sucesso);
+  background: var(--cor-sucesso-clara);
+  border-color: var(--cor-borda-sucesso);
+}
+
+.mensagem-erro {
+  color: var(--cor-erro);
+  background: var(--cor-erro-clara);
+  border-color: var(--cor-borda-erro);
+}
+
+.mensagem-aviso {
+  color: var(--cor-aviso);
+  background: var(--cor-aviso-clara);
+  border-color: var(--cor-borda-aviso);
+}
+
+/* ---------- 6. Estrutura das telas ---------- */
+.tela-cabecalho {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.tela-cabecalho h2 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.texto-apoio {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--cor-texto-suave);
+}
+
+.contador {
+  margin: 0;
+  color: var(--cor-texto-suave);
+}
+
+.contador strong {
+  font-size: 1.1rem;
+  color: var(--cor-destaque);
+}
+
+.cartao {
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-cartao);
+  padding: 20px;
+}
+
+.acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+/* ---------- 7. Campos de formulário ---------- */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.campo label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  font: inherit;
+  font-size: 1rem;
+  color: inherit;
+  padding: 10px 12px;
+  background: var(--cor-campo);
+  border: 1px solid var(--cor-borda-forte);
+  border-radius: var(--raio);
+}
+
+textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.dica {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--cor-texto-suave);
+}
+
+.erro-campo {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--cor-erro);
+}
+
+.erro-campo:empty {
+  display: none;
+}
+
+.campo-invalido input,
+.campo-invalido select,
+.campo-invalido textarea {
+  border-color: var(--cor-erro);
+  background: var(--cor-erro-clara);
+}
+
+.formulario fieldset {
+  margin: 0 0 24px;
+  padding: 0;
+  border: 0;
+}
+
+.formulario legend {
+  width: 100%;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border-bottom: 2px solid var(--cor-destaque-clara);
+}
+
+.grade-campos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.grade-uma-coluna {
+  grid-template-columns: 1fr;
+}
+
+.campo-largo {
+  grid-column: 1 / -1;
+}
+
+/* ---------- 8. Filtros e lista de resumos ---------- */
+.filtros {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  align-items: end;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.lista-resumos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cartao-resumo {
+  display: flex;
+  flex-direction: column;
+}
+
+.cartao-resumo h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  overflow-wrap: anywhere;
+}
+
+.meta {
+  margin: 2px 0 0;
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
+}
+
+.previa {
+  flex: 1;
+  margin: 12px 0 0;
+  font-size: 0.92rem;
+  color: var(--cor-texto-suave);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.estado-vazio {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--cor-texto-suave);
+  background: var(--cor-superficie);
+  border: 1px dashed var(--cor-borda-forte);
+  border-radius: var(--raio-cartao);
+}
+
+/* ---------- 9. Resumo padronizado (tela de detalhe) ---------- */
+.resumo-cabecalho {
+  padding-bottom: 16px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.resumo-cabecalho h2 {
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.secao-resumo {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.secao-resumo:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.secao-resumo h3 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  color: var(--cor-destaque);
+}
+
+.secao-resumo dl {
+  margin: 0;
+}
+
+.secao-resumo dt {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.secao-resumo dd {
+  margin: 2px 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.nao-informado {
+  font-style: italic;
+  color: var(--cor-texto-suave);
+}
+
+/* ---------- 10. Painel do prompt ---------- */
+.painel-prompt {
+  margin-top: 24px;
+}
+
+.painel-prompt h3 {
+  margin: 0 0 4px;
+}
+
+.painel-prompt textarea {
+  min-height: 320px;
+  margin-top: 12px;
+  font-family: ui-monospace, Consolas, "Courier New", monospace;
+  font-size: 0.88rem;
+  background: var(--cor-fundo);
+}
+
+.feedback-copia {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.feedback-sucesso {
+  color: var(--cor-sucesso);
+}
+
+.feedback-erro {
+  color: var(--cor-erro);
+}
+
+/* ---------- 11. Janela de confirmação de exclusão ---------- */
+.dialogo {
+  width: min(440px, calc(100% - 32px));
+  padding: 24px;
+  color: var(--cor-texto);
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-cartao);
+}
+
+.dialogo::backdrop {
+  background: var(--cor-sombra-fundo);
+}
+
+.dialogo h2 {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+}
+
+.dialogo p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- 12. Responsividade (celulares) ---------- */
+@media (max-width: 600px) {
+  .cabecalho-conteudo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navegacao {
+    width: 100%;
+  }
+
+  .cartao {
+    padding: 16px;
+  }
+
+  .acoes .botao {
+    flex: 1 1 auto;
+  }
+}
